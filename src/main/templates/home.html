@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <style>
+            .content {
+                text-align: center;
+            }
+
+            .content li {
+                border-style: solid;
+                list-style-type: none;
+            }
+
+            .f-left {
+                float: left;
+            }
+
+            .f-right {
+                float: right;
+            }
+
+            .heading {
+                display: flow-root;
+            }
+        </style>
+
+        <script>
+            function startMatch() {
+                fetch(`api/match`, {
+                    method: 'POST'
+                }).then(function(response) {
+                    if(response.ok) {
+                        // open window
+                    } else {
+                        // error?
+                    }
+                })
+            }
+        </script>
+    </head>
+
+    <body>
+
+        <div class="heading">
+            <h1 class="f-left">Damas!</h1>
+            <button class="f-right" type="button" onclick="startMatch()">Empezar nueva partida</button>
+        </div>
+        <div class="content">
+            <span>Ver Partidas Activas</span>
+            <ul id="active-matches">
+                <li>EJEMPLO Iniciada hace 'x' minutos. Turno de 'color'</li>
+            </ul>
+        </div>
+    </body>
+</html>
