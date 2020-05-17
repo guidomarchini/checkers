@@ -34,12 +34,13 @@ Board.prototype.initializeCheckers = function() {
 
     function addInRows(color, yIndex, modFunction) {
         for(let xIndex = 0;
-            xIndex < self.boardSize && modFunction(xIndex);
+            xIndex < self.boardSize;
             xIndex++) {
-
-            const check = new Checker(color, xIndex, yIndex);
-            self.board[xIndex][yIndex] = check;
-            checkers[color].push(check)
+            if (modFunction(xIndex)) {
+                const check = new Checker(color, xIndex, yIndex);
+                self.board[xIndex][yIndex] = check;
+                checkers[color].push(check)
+            }
         }
     }
 

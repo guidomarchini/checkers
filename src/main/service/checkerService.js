@@ -9,15 +9,15 @@ module.exports = {
         checkers,
         match
     ) {
-        checkerRepository.createCheckers(checkers, match.id);
+        return checkerRepository.createCheckers(checkers, match.id);
     },
     getCheckersForMatch: function(match) {
-        checkerRepository.getCheckers(match.id);
+        return checkerRepository.getCheckers(match.id);
     },
     updateCheckers: function(
         checkers,
         match
     ) {
-        checkerRepository.updateCheckers(checkers, match);
+        return checkerRepository.updateCheckers(checkers, match);
     }
 };

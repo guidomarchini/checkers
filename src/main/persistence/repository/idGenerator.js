@@ -9,8 +9,6 @@ module.exports = {
     generateId : function(entityName) {
         const folder = path.join(__dirname + '/out/' + entityName);
 
-        return Math.max(
-            fs.readdirSync(folder)
-        ) + 1
+        return fs.readdirSync(folder).length;
     }
 };

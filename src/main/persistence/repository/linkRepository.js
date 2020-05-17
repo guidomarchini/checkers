@@ -1,4 +1,5 @@
 // imports
+require('../entity/linkEntity')
 const idGenerator = require('./idGenerator');
 const fs = require('fs');
 const path = require('path');

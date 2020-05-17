@@ -5,12 +5,12 @@ const matchRepository = require('../persistence/repository/matchRepository');
 
 module.exports = {
     newMatch : function(firstTurn) {
-        matchRepository.createMatch(firstTurn);
+        return matchRepository.createMatch(firstTurn);
     },
     getMatch : function(id) {
-        matchRepository.getMatch(id);
+        return matchRepository.getMatch(id);
     },
     updateMatch: function(match) {
-        matchRepository.updateMatch(match)
+        return matchRepository.updateMatch(match)
     }
 }

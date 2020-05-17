@@ -13,6 +13,6 @@ module.exports = {
         }
     },
     fetchLink : function(id) {
-        linkRepository.getLink(id)
+        return linkRepository.getLink(id)
     }
 }

@@ -30,5 +30,5 @@ module.exports = {
 };
 
 function getAllCheckers(checkerGame) {
-    return checkerGame[WHITE].concat(checkerGame[WHITE]);
+    return checkerGame.checkers[WHITE].concat(checkerGame.checkers[BLACK]);
 }
