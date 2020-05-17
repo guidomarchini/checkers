@@ -8,7 +8,10 @@ const CHECKER = 'checker';
 const dirpath = path.join(`${__dirname}/out/${CHECKER}`);
 
 module.exports = {
-    createCheckers : function(checkers, matchId) {
+    createCheckers : function(
+        checkers,
+        matchId
+    ) {
         fs.writeFileSync(`${dirpath}/${matchId}`, JSON.stringify(checkers));
         return checkers;
     },
@@ -18,7 +21,10 @@ module.exports = {
             return JSON.parse(data);
         });
     },
-    updateCheckers : function(checkers, matchId) {
+    updateCheckers : function(
+        checkers,
+        matchId
+    ) {
         this.createCheckers(checkers, matchId);
     }
 };

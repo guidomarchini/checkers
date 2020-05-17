@@ -5,13 +5,19 @@
 const checkerRepository = require('../persistence/repository/checkerRepository');
 
 module.exports = {
-    saveCheckers : function(checkers, match) {
+    saveCheckers : function(
+        checkers,
+        match
+    ) {
         checkerRepository.createCheckers(checkers, match.id);
     },
     getCheckersForMatch: function(match) {
         checkerRepository.getCheckers(match.id);
     },
-    updateCheckers: function(checkers, match) {
+    updateCheckers: function(
+        checkers,
+        match
+    ) {
         checkerRepository.updateCheckers(checkers, match);
     }
 };

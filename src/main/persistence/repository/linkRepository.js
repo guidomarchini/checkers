@@ -8,7 +8,10 @@ const LINK = 'link';
 const dirpath = path.join(`${__dirname}/out/${LINK}`);
 
 module.exports = {
-    createLink : function(matchId, player) {
+    createLink : function(
+        matchId,
+        player
+    ) {
         const newLinkId = idGenerator.generateId(LINK);
         const newEntity = new LinkEntity(newLinkId, matchId, player);
         fs.writeFileSync(`${dirpath}/${newLinkId}`, JSON.stringify(newEntity));
