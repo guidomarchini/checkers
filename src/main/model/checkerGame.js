@@ -8,9 +8,32 @@ require('../commons')
  */
 function CheckerGame() {
     this.board = new Board();
+    this.checkers = checkers = {
+        WHITE: [],
+        BLACK: []
+    };
+    this.turn = null
+}
+
+/**
+ * Creates a new game.
+ * Delegates the checker creation to the board,
+ * Default first turn is for White checkers.
+ */
+CheckerGame.prototype.newGame = function(){
     this.checkers = this.board.initializeCheckers();
     this.turn = WHITE
-}
+};
+/**
+ * Loads a game for given checkers and turn.
+ */
+CheckerGame.prototype.loadGame = function(checkers, currentTurn) {
+    checkers.forEach(checker => {
+        this.checkers[checker.color].push(checker)
+    });
+    this.board.placeCheckers(checkers);
+    this.turn = currentTurn;
+};
 /**
  * Moves the checker from the given coordinates into another coordinates
  */

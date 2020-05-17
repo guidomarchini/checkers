@@ -57,6 +57,14 @@ Board.prototype.initializeCheckers = function() {
     return checkers
 };
 /**
+ * Places the already created checkers on the board.
+ */
+Board.prototype.placeCheckers = function(checkers) {
+    checkers.forEach(checker => {
+        this.board[checker.xPosition][checker.yPosition] = checker
+    });
+};
+/**
  * Moves the checker in the given position to a given coordinate.
  * Returns the list of the eaten checkers
  */
