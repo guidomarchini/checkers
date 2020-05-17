@@ -2,7 +2,7 @@
  * Check representation.
  * Knows its color and its board position.
  */
-function Checker(
+global.Checker = function(
     color,
     xPosition,
     yPosition

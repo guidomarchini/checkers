@@ -18,7 +18,7 @@ app.get('/damas/{link_id}', function(req, res) {
  * Creates a new match, returning the links for both white and black players.
  */
 app.post('/apis/matches', function(req, res) {
-    // res.json(gameService.newGame());
+    res.json(gameService.newGame());
 });
 
 app.get('/apis/matches/{id}', function(req, res) {

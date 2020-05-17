@@ -4,7 +4,7 @@
  * @param matchId the id of the match this is linked with
  * @param player black, white or spectator
  */
-function LinkEntity(
+global.LinkEntity = function(
     id,
     matchId,
     player

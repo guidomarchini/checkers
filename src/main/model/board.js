@@ -5,7 +5,7 @@ require('../commons');
  * Represents the checker board.
  * It contains information about how the checks are in the board.
  */
-function Board() {
+global.Board = function() {
     this.boardSize = 10;
 
     this.board = [];
@@ -28,18 +28,17 @@ Board.prototype.checkerAt = function(
  */
 Board.prototype.initializeCheckers = function() {
     const self = this;
-    const checkers = {
-        WHITE: [],
-        BLACK: []
-    };
+    const checkers = [];
+    checkers[WHITE] = [];
+    checkers[BLACK] = [];
 
-    function addInRows(color, yPosition, modFunction) {
+    function addInRows(color, yIndex, modFunction) {
         for(let xIndex = 0;
             xIndex < self.boardSize && modFunction(xIndex);
             xIndex++) {
 
-            const check = new Checker(color, xIndex, yPosition);
-            self.board[xIndex][yPosition] = check;
+            const check = new Checker(color, xIndex, yIndex);
+            self.board[xIndex][yIndex] = check;
             checkers[color].push(check)
         }
     }

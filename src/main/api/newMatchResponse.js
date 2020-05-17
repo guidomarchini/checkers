@@ -2,7 +2,7 @@
  * Response for a new match game.
  * It contains the links for both black and white players.
  */
-function NewMatchResponse(
+global.NewMatchResponse = function(
     whitePlayerLink,
     blackPlayerLink
 ) {

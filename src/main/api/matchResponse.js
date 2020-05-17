@@ -5,7 +5,7 @@
  * @param currentTurn the current color turn
  * @param result if the game has ended, this will return the result
  */
-function MatchResponse(
+global.MatchResponse = function(
     checkers,
     yourTurn,
     result

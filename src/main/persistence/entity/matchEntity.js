@@ -4,7 +4,7 @@
  * @param currentTurn
  * @param startedAt the Date when this match started
  */
-function MatchEntity(
+global.MatchEntity = function(
     id,
     currentTurn,
     startedAt

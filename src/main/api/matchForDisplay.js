@@ -4,7 +4,7 @@
  * @param currentTurn the current player turn
  * @param viewLink the link to view the match
  */
-function MatchForDisplay(
+global.MatchForDisplay = function(
     startedAt,
     currentTurn,
     viewLink
