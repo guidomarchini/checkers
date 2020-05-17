@@ -10,7 +10,7 @@ const dirpath = path.join(`${__dirname}/out/${MATCH}`);
 module.exports = {
     createMatch : function(firstTurn) {
         const newMatchId = idGenerator.generateId(MATCH);
-        const newMatch = new MatchEntity(newMatchId, firstTurn);
+        const newMatch = new MatchEntity(newMatchId, firstTurn, new Date());
         fs.writeFileSync(`${dirpath}/${newMatchId}`, JSON.stringify(newMatch));
         return newMatch;
     },

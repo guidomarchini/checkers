@@ -1,30 +1,30 @@
-var http = require('http');
-var url = require('url');
-var fs = require('fs');
+const express = require('express');
+const app = express();
+const path = require('path');
 
-const hostname = '127.0.0.1';
-const port = 3000;
+const gameService = require('service/gameService');
 
+// UI calls
+app.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname+'/views/home.html'))
+});
 
-http.createServer(function (req, res) {
-    var q = url.parse(req.url, true);
-    var filename;
-    if (q.pathname == "/") {
-        filename = './templates/home.html';
-    } else {
-        filename = `./templates/${q.pathname}.html`;
-    }
+app.get('/damas/{link_id}', function(req, res) {
+    // TODO
+});
 
-    fs.readFile(filename, function(err, data) {
-        if (err) {
-            res.writeHead(404, {'Content-Type': 'text/html'});
-            return res.end("404 Not Found");
-        }
-        res.writeHead(200, {'Content-Type': 'text/html'});
-        res.write(data);
-        return res.end();
-    });
+// api calls
+/**
+ * Creates a new match, returning the links for both white and black players.
+ */
+app.post('/apis/matches', function(req, res) {
+    res.json(gameService.newGame());
+});
 
-}).listen(port, hostname, () => {
-    console.log(`Server running at http://${hostname}:${port}/`);
+app.get('/apis/matches/{id}', function(req, res) {
+    // TODO
+})
+
+app.listen(3000, function() {
+    console.log('Starting server in port 3000!');
 });

@@ -8,7 +8,7 @@ require('../commons')
  */
 function CheckerGame() {
     this.board = new Board();
-    this.checkers = checkers = {
+    this.checkers = {
         WHITE: [],
         BLACK: []
     };

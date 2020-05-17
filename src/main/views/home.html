@@ -1,0 +1,76 @@
+<html>
+    <head>
+        <style>
+            .content {
+                text-align: center;
+            }
+
+            .content li {
+                border-style: solid;
+                list-style-type: none;
+            }
+
+            .f-left {
+                float: left;
+            }
+
+            .f-right {
+                float: right;
+            }
+
+            .heading {
+                display: flow-root;
+            }
+        </style>
+
+        <script>
+            function startMatch() {
+                fetch(`/apis/matches`, {
+                    method: 'POST'
+                }).then(function(response) {
+                    if(response.ok) {
+
+                    } else {
+                        // error?
+                    }
+                })
+            }
+        </script>
+    </head>
+
+    <body>
+
+        <div class="heading">
+            <h1 class="f-left">Damas!</h1>
+            <button class="f-right" type="button" onclick="startMatch()">Empezar nueva partida</button>
+        </div>
+        <div class="content">
+            <span>Ver Partidas Activas</span>
+            <ul id="active-matches">
+            </ul>
+        </div>
+
+
+
+        <script>
+            fetch(`matches`, {
+                method: 'GET'
+            }).then(function(response) {
+                if(response.ok) {
+                    response.json().then(data => {
+                        const list = document.getElementById("active-matches");
+
+                        data.forEach(match => {
+                            const item = document.createElement('li');
+                            // const time = Math.abs(new Date() - match.startedAt).
+                            item.innerText = `Iniciada hace X minutos. Turno de ${match.turn}`;
+                            list.appendChild(item);
+                        })
+                    })
+                } else {
+                    // error?
+                }
+            })
+        </script>
+    </body>
+</html>

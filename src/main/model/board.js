@@ -1,5 +1,5 @@
 require('./checker');
-require('../commons')
+require('../commons');
 
 /**
  * Represents the checker board.
@@ -94,8 +94,8 @@ Board.prototype.moveChecker = function(
     // gather eaten checkers
     let currentCell = null;
     for (let rangeIndex = 0; rangeIndex < xRange.length; rangeIndex++) {
-        const yPosition = yRange[rangeIndex]
-        const xPosition = xRange[rangeIndex]
+        const yPosition = yRange[rangeIndex];
+        const xPosition = xRange[rangeIndex];
 
         currentCell = this.checkerAt(xPosition, yPosition);
         if (currentCell !== null) {
