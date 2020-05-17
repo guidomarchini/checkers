@@ -21,6 +21,18 @@
             .heading {
                 display: flow-root;
             }
+
+            #new-game-modal {
+                display: none;
+                position: fixed;
+                z-index: 1;
+                overflow: auto;
+            }
+
+            .modal-header {
+                background-color: darkgrey;
+                color: white;
+            }
         </style>
 
         <script>
@@ -29,16 +41,49 @@
                     method: 'POST'
                 }).then(function(response) {
                     if(response.ok) {
-
+                        response.json().then(data => {
+                            document.getElementById("white-player-link").innerText = window.location.href + "damas/" + data.whitePlayerLink.id;
+                            document.getElementById("black-player-link").innerText = window.location.href + "damas/" + data.blackPlayerLink.id;
+                            document.getElementById("new-game-modal").style.display = "block"
+                        })
                     } else {
                         // error?
                     }
                 })
             }
+
+            function loadMatches() {
+                fetch('/apis/matches', {
+                    method: 'GET'
+                }).then(function(response) {
+                    if(response.ok) {
+                        response.json().then(data => {
+                            const list = document.getElementById("active-matches");
+
+                            data.forEach(match => {
+                                const item = document.createElement('li');
+
+                                const minutesDiff = // doesn't work outside
+                                    Math.round(
+                                        (new Date() - new Date(match.startedAt)) / 1000 / 60
+                                    );
+
+                                const linkTag = document.createElement('a')
+                                linkTag.setAttribute('href', window.location.href + "damas/" + match.id);
+                                linkTag.innerHTML = `Iniciada hace ${minutesDiff} minutos. Turno de ${match.currentTurn}`;
+                                item.appendChild(linkTag);
+                                list.appendChild(item);
+                            })
+                        })
+                    } else {
+                        // error?
+                    }
+                });
+            }
         </script>
     </head>
 
-    <body>
+    <body onload="loadMatches()">
 
         <div class="heading">
             <h1 class="f-left">Damas!</h1>
@@ -50,27 +95,21 @@
             </ul>
         </div>
 
-
-
-        <script>
-            fetch(`matches`, {
-                method: 'GET'
-            }).then(function(response) {
-                if(response.ok) {
-                    response.json().then(data => {
-                        const list = document.getElementById("active-matches");
-
-                        data.forEach(match => {
-                            const item = document.createElement('li');
-                            // const time = Math.abs(new Date() - match.startedAt).
-                            item.innerText = `Iniciada hace X minutos. Turno de ${match.turn}`;
-                            list.appendChild(item);
-                        })
-                    })
-                } else {
-                    // error?
-                }
-            })
-        </script>
+        <div id="new-game-modal" class="modal">
+            <div class="modal-header">
+                <span>Nueva partida!</span>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <span>Comparti este link con el jugador que juegue blancas:</span>
+                    <span id="white-player-link"></span>
+                </div>
+                <div>
+                    <span>Comparti este link con el jugador que juegue negras:</span>
+                    <span id="black-player-link"></span>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

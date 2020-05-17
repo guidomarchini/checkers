@@ -16,9 +16,15 @@ module.exports = {
         return newMatch;
     },
     getMatch : function(id) {
-        fs.readFile(`${dirpath}/${id}`, (err, data) => {
+        return fs.readFile(`${dirpath}/${id}`, (err, data) => {
             if (err) throw err;
             return JSON.parse(data);
+        });
+    },
+    getAllMatches : function() {
+        return fs.readdirSync(dirpath).map(file => {
+            const fileContent = fs.readFileSync(`${dirpath}/${file}`);
+            return JSON.parse(fileContent);
         });
     },
     updateMatch: function(match) {
