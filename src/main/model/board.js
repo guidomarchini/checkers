@@ -1,5 +1,5 @@
 require('./checker');
-require('./commons')
+require('../commons')
 
 /**
  * Represents the checker board.

@@ -9,7 +9,7 @@ function LinkEntity(
     matchId,
     player
 ) {
-    this.id = id
+    this.id = id;
     this.matchId = matchId;
     this.player = player;
 }
