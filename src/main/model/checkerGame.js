@@ -1,5 +1,5 @@
 require('./board');
-require('../commons')
+require('./../commons');
 
 
 /**

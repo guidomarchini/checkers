@@ -7,9 +7,9 @@ require('../commons');
 require('../api/newMatchResponse');
 
 // variables
-const matchService = require('matchService');
-const checkerService = require('checkerService');
-const linkService = require('linkService');
+const matchService = require('./matchService');
+const checkerService = require('./checkerService');
+const linkService = require('./linkService');
 
 module.exports = {
     newGame : function() {

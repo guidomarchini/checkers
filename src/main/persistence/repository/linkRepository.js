@@ -1,5 +1,5 @@
 // imports
-const idGenerator = require('idGenerator');
+const idGenerator = require('./idGenerator');
 const fs = require('fs');
 const path = require('path');
 
