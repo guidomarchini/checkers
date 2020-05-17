@@ -12,7 +12,6 @@ module.exports = {
             "blackPlayerLink": linkRepository.createLink(match.id, BLACK)
         }
     },
-
     fetchLink : function(id) {
         linkRepository.getLink(id)
     }

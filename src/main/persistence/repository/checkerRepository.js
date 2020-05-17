@@ -12,14 +12,12 @@ module.exports = {
         fs.writeFileSync(`${dirpath}/${matchId}`, JSON.stringify(checkers));
         return checkers;
     },
-
     getCheckers : function(matchId) {
         fs.readFile(`${dirpath}/${matchId}`, (err, data) => {
             if (err) throw err;
             return JSON.parse(data);
         });
     },
-
     updateCheckers : function(checkers, matchId) {
         this.createCheckers(checkers, matchId);
     }

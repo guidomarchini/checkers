@@ -14,7 +14,6 @@ module.exports = {
         fs.writeFileSync(`${dirpath}/${newLinkId}`, JSON.stringify(newEntity));
         return newEntity;
     },
-
     getLink : function(id) {
         fs.readFile(`${dirpath}/${id}`, (err, data) => {
             if (err) throw err;
