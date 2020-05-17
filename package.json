@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/guidomarchini/checkers#readme",
   "dependencies": {
-    "mysql": "^2.18.1"
+    "express": "^4.17.1"
   }
 }
