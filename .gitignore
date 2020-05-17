@@ -105,3 +105,6 @@ dist
 # Idea
 *.iml
 .idea
+
+# Project specific
+src/main/persistence/repository/out/
