@@ -12,6 +12,7 @@ module.exports = {
         const newLinkId = idGenerator.generateId(LINK);
         const newEntity = new LinkEntity(newLinkId, matchId, player);
         fs.writeFileSync(dirpath, JSON.stringify(newEntity));
+        return newEntity;
     },
 
     getLink : function(id) {
