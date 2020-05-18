@@ -1,0 +1,253 @@
+<html>
+    <head>
+        <style>
+            .black-cell {
+                background-color: #303030;
+            }
+
+            .white-cell {
+                background-color: beige;
+            }
+
+            .board-row {
+                float: left;
+                width: 100%
+            }
+
+            .board-cell {
+                width: 50px;
+                height: 50px;
+                float: left;
+            }
+
+            .checker {
+                border: 15px solid;
+                margin: 20% 20% 20% 20%;
+                position: inherit;
+                border-radius: 50%;
+            }
+
+            .black-checker {
+                border-color: darkgoldenrod;
+            }
+
+            .white-checker {
+                border-color: aliceblue;
+            }
+
+            .content {
+                margin-left: 20%;
+            }
+
+            .active-checker:hover {
+                cursor: pointer;
+            }
+
+            .movable-cell:hover {
+                cursor: pointer;
+            }
+
+            .movable-cell {
+                background-color: olive;
+            }
+
+            .selected-checker {
+                background-color: olivedrab;
+            }
+        </style>
+
+        <script>
+            const matchId = '{{ link.matchId }}';
+            const player = '{{ link.player }}';
+            let selectedCheckerCoordinates = null;
+
+            function cellId(xAxis, yAxis) {
+                return `cell-${xAxis}-${yAxis}`;
+            }
+
+            function drawCheckersBoard() {
+                const checkerBoard = document.getElementById('checkers-board');
+                const boardSize = 10;
+
+                for (let yAxis = 0;
+                    yAxis < boardSize;
+                    yAxis++) {
+                    const boardRow = document.createElement('div');
+                    boardRow.className = 'board-row';
+
+                    for (let xAxis = 0;
+                        xAxis < boardSize;
+                        xAxis++) {
+                        const color = (xAxis + yAxis) % 2 === 0 ? 'black-cell' : 'white-cell';
+
+                        const boardCell = document.createElement('div');
+                        boardCell.className = `board-cell ${color}`;
+                        boardCell.id = cellId(xAxis, yAxis);
+
+                        boardRow.appendChild(boardCell);
+                    }
+
+                    checkerBoard.appendChild(boardRow)
+                }
+
+                fillCheckers()
+            }
+
+            function fillCheckers() {
+                fetch(`/apis/matches/${matchId}`, {
+                    method: 'GET'
+                }).then(function(response) {
+                    if(response.ok) {
+                        response.json().then(data => {
+                            // checkers, currentTurn, winner
+                            fillBoard(data.checkers, data.currentTurn);
+                            showText(data.winner, data.currentTurn);
+                        })
+                    } else {
+                        // error?
+                    }
+                });
+            }
+
+            function showText(
+                winner,
+                currentTurn
+            ) {
+                if (winner) {
+                    if (currentTurn === player) {
+                        setText('Ganaste!');
+                    } else {
+                        setText('Ganador el jugador de: ' + winner);
+                    }
+                } else{
+                    if (currentTurn === player) {
+                        setText('Tu turno!');
+                    } else {
+                        setText('Turno del jugador ' + currentTurn);
+                    }
+                }
+            }
+
+            function setText(text) {
+                document.getElementById('turn-text').innerText = text
+            }
+
+            function fillBoard(
+                checkers,
+                currentTurn
+            ) {
+                //color, xPosition, yPosition
+                checkers.forEach(checker => {
+                    const cell = document.getElementById(cellId(checker.xPosition, checker.yPosition));
+
+                    const checkerTag = document.createElement('div');
+                    checkerTag.className = `checker ${checker.color}-checker`;
+                    if (checker.color === currentTurn) {
+                        checkerTag.class = 'active-checker';
+                        checkerTag.onclick = function() { selectChecker(checker, cell) };
+                    }
+
+                    cell.appendChild(checkerTag);
+                    cell.className += ' has-checker';
+                })
+            }
+
+            function selectChecker(
+                checker,
+                cell
+            ) {
+                resetMovements();
+                cell.id = 'selected-checker';
+                const selectedCheckerCoordinates = [checker.xPosition, checker.yPosition];
+
+                const upRightVariance = [1, -1];
+                const upLeftVariance = [-1, -1];
+                const downRightVariance = [1, 1];
+                const downLeftVariance = [-1, 1];
+
+                showMovements(selectedCheckerCoordinates, upRightVariance, checker.color);
+                showMovements(selectedCheckerCoordinates, upLeftVariance, checker.color);
+                showMovements(selectedCheckerCoordinates, downRightVariance, checker.color);
+                showMovements(selectedCheckerCoordinates, downLeftVariance, checker.color);
+            }
+
+            function resetMovements() {
+                for (let cell of document.getElementsByClassName('movable-cell')) {
+                    cell.className = 'board-cell black-cell';
+                    cell.onclick = null;
+                }
+                document.getElementById('selected-checker').id = null
+            }
+
+            function showMovements(
+                currentCoordinates,
+                variance,
+                checkerColor
+            ) {
+                const xAxis = currentCoordinates[0] + variance[0];
+                const yAxis = currentCoordinates[1] + variance[1];
+
+                const targetCell = document.getElementById(cellId(xAxis, yAxis));
+
+                // if target cell exists (i'm not outside of the board
+                // and not contains a checker with same color
+                // then we paint/continue painting
+                if (targetCell && !containsChecker(targetCell, checkerColor)) {
+
+                    // we can move here if there's not a checker
+                    if (!targetCell.hasChildNodes()) {
+                        targetCell.className = 'board-cell movable-cell';
+                        targetCell.onclick = function() { moveChecker(xAxis, yAxis) };
+                    }
+
+                    // continue the iteration
+                    showMovements([xAxis, yAxis], variance, checkerColor);
+                }
+            }
+
+            function containsChecker(
+                targetCell,
+                checkerColor
+            ) {
+                targetCell.firstElementChild.getAttribute('class').includes(checkerColor)
+            }
+
+            function moveChecker(
+                xAxisTo,
+                yAxisTo
+            ) {
+                const body = {
+                    "matchId": matchId,
+                    "xAxisFrom": selectedCheckerCoordinates[0],
+                    "yAxisFrom": selectedCheckerCoordinates[1],
+                    "xAxisTo": xAxisTo,
+                    "yAxisTo": yAxisTo
+                };
+
+                fetch(`/apis/matches/${matchId}`, {
+                    method: 'PUT',
+                    body: JSON.stringify(body),
+                    headers:{
+                        'Content-Type': 'application/json'
+                    }
+                }).then(function(response) {
+                    if(response.ok) {
+                        location.reload()
+                    } else {
+                        // error ?
+                    }
+                })
+            }
+        </script>
+    </head>
+    <body onload="drawCheckersBoard()">
+        <h1>Damas!</h1>
+
+        <div class="content">
+            <span id="turn-text"></span>
+            <div id="checkers-board">
+
+            </div>
+        </div>
+    </body>
+</html>

@@ -5,6 +5,8 @@
 require('../model/checkerGame');
 require('../commons');
 require('../api/newMatchResponse');
+require('../api/getMatchesResponse');
+require('../api/matchResponse');
 
 // variables
 const matchService = require('./matchService');
@@ -12,6 +14,9 @@ const checkerService = require('./checkerService');
 const linkService = require('./linkService');
 
 module.exports = {
+    getAllMatches : function() {
+        return new GetMatchesResponse(matchService.getAllMatches());
+    },
     newGame : function() {
         const newCheckerGame = new CheckerGame().newGame();
 
@@ -26,9 +31,31 @@ module.exports = {
             links.whitePlayerLink,
             links.blackPlayerLink
         )
+    },
+    getGame : function(matchId) {
+        const match = matchService.getMatch(matchId);
+        const checkers = checkerService.getCheckersForMatch(matchId);
+        const winner = calculateWinner(checkers);
+        const currentTurn = winner ? SPECTATOR : match.currentTurn;
+
+        return new MatchResponse(
+            checkers,
+            currentTurn,
+            winner
+        )
+    },
+    moveChecker : function(matchid, movementRequest) {
+        console.log(movementRequest)
     }
 };
 
 function getAllCheckers(checkerGame) {
     return checkerGame.checkers[WHITE].concat(checkerGame.checkers[BLACK]);
+}
+
+function calculateWinner(checkers) {
+    const colors = new Set(checkers.map(checker => checker.color));
+    if (colors.size === 1) {
+        return colors[0];
+    } else return null;
 }

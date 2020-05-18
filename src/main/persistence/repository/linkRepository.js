@@ -19,7 +19,7 @@ module.exports = {
         return newEntity;
     },
     getLink : function(id) {
-        fs.readFile(`${dirpath}/${id}`, (err, data) => {
+        return fs.readFile(`${dirpath}/${id}`, (err, data) => {
             if (err) throw err;
             return JSON.parse(data);
         });

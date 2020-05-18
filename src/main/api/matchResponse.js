@@ -1,18 +1,15 @@
 /**
  * A Checkers match.
  * @param checkers the checkers that are on the board
- * @param yourTurn boolean
  * @param currentTurn the current color turn
- * @param result if the game has ended, this will return the result
+ * @param winner if the game has ended, this will return the winner
  */
 global.MatchResponse = function(
     checkers,
-    yourTurn,
-    result
+    currentTurn,
+    winner
 ) {
-    return {
-        "checkers": checkers,
-        "your_turn": yourTurn,
-        "result": result
-    }
+    this.checkers = checkers;
+    this.currentTurn = currentTurn;
+    this.winner = winner;
 }

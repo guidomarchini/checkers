@@ -10,4 +10,4 @@ global.Checker = function(
     this.color = color;
     this.xPosition = xPosition;
     this.yPosition = yPosition;
-}
+};
