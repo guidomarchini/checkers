@@ -62,7 +62,7 @@
                         response.json().then(data => {
                             const list = document.getElementById("active-matches");
 
-                            data.forEach(match => {
+                            data.matches.forEach(match => {
                                 const item = document.createElement('li');
 
                                 const minutesDiff = // doesn't work outside

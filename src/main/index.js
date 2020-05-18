@@ -17,7 +17,7 @@ app.get('/damas/:linkId', function(req, res) {
     const linkId = req.params.linkId;
     console.log(`[link=${linkId}] fetching link`);
     const link = linkService.fetchLink(linkId);
-    // TODO to ejs and render filling link
+    // TODO on link missing
     res.render(
         path.join(__dirname+'/views/match.html'),
         link,
@@ -38,6 +38,7 @@ app.get('/apis/matches', function(req, res) {
 
 app.post('/apis/matches', function(req, res) {
     console.log('creating new game');
+    // res.sendStatus(201);
     res.json(gameService.newGame());
 });
 
@@ -48,10 +49,10 @@ app.get('/apis/matches/:matchId', function(req, res) {
 });
 
 app.put('/apis/matches/:matchId', function(req, res) {
-    const matchid = req.params.matchId;
+    const matchId = req.params.matchId;
     let movementRequest = req.body;
     console.log(`[match=${matchId}] moving from: [${movementRequest.xAxisFrom}, ${movementRequest.yAxisFrom}] to [${movementRequest.xAxisTo}, ${movementRequest.yAxisTo}]`)
-    gameService.moveChecker(matchid, movementRequest);
+    gameService.moveChecker(matchId, movementRequest);
 });
 
 app.listen(3000, function() {

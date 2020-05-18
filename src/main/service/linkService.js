@@ -8,8 +8,8 @@ module.exports = {
     generateLinks : function(match) {
         return {
             "viewLink": linkRepository.createLink(match.id, SPECTATOR),
-            "whitePlayerLink": linkRepository.createLink(match.id + 1, WHITE),
-            "blackPlayerLink": linkRepository.createLink(match.id + 2, BLACK)
+            "whitePlayerLink": linkRepository.createLink(match.id, WHITE),
+            "blackPlayerLink": linkRepository.createLink(match.id, BLACK)
         }
     },
     fetchLink : function(id) {
