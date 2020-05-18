@@ -8,6 +8,21 @@ This checkers game is kinda different thatn the original one. The differences:
 * Checkers can't jump over a friendly checker
 * Checkers can eat any number of enemy checkers that are on the way
 
+## How it works
+### Home page
+Here you can find the matches in course. You can click on them in order to spectate them, or you can create a new match. If so, a modal window will appear, giving you two links: One for the white checkers player and another for the black checkers player.
+
+### Match page
+So, There are three ways of getting here. As a spectator, or as one of the two players. What happens here?
+
+#### Accesing as a spectator
+Not too much here. You will see the current turn and the board. The refresh of the page is set to 5 seconds, if a player already moved.
+
+### Accesing as a player
+If it's not your turn, you will see a message saying so. Same as before, not too much to do, but to wait until your oponent plays :)
+
+Now, if it is your turn you can click on any checker on the board. Doing so will show you the available movements, highlighting the cells that the checker is able to move. Clicking on one of them makes your move, and then you'll switch the role :)
+
 ## Architecture
 This proyect is made with Nodejs, express and (a little of) ejs. Front end has vanilla js.
 
@@ -53,6 +68,3 @@ PUT("/apis/matches/:matchId") Generates a checker move, updating the match.
 
 ### Views
 Html files are contained in this folder.
-
-
-
