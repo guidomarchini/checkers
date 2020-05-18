@@ -69,6 +69,6 @@ function getAllCheckers(checkerGame) {
 function calculateWinner(checkers) {
     const colors = new Set(checkers.map(checker => checker.color));
     if (colors.size === 1) {
-        return colors[0];
+        return colors.values().next().value;
     } else return null;
 }

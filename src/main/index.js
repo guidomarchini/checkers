@@ -11,6 +11,7 @@ app.use(bodyParser.json());
 
 // UI calls
 app.get('/', function(req, res) {
+    // TODO whish i had known about
     console.log('returning home page');
     res.sendFile(path.join(__dirname+'/views/home.html'))
 });
