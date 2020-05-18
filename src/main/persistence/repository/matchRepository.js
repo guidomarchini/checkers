@@ -16,10 +16,8 @@ module.exports = {
         return newMatch;
     },
     getMatch : function(id) {
-        return fs.readFile(`${dirpath}/${id}`, (err, data) => {
-            if (err) throw err;
-            return JSON.parse(data);
-        });
+        const fileContent = fs.readFileSync(`${dirpath}/${id}`);
+        return JSON.parse(fileContent);
     },
     getAllMatches : function() {
         return fs.readdirSync(dirpath).map(file => {

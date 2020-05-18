@@ -19,9 +19,7 @@ module.exports = {
         return newEntity;
     },
     getLink : function(id) {
-        return fs.readFile(`${dirpath}/${id}`, (err, data) => {
-            if (err) throw err;
-            return JSON.parse(data);
-        });
+        const fileContent = fs.readFileSync(`${dirpath}/${id}`);
+        return JSON.parse(fileContent);
     }
 };

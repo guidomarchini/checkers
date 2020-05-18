@@ -16,10 +16,8 @@ module.exports = {
         return checkers;
     },
     getCheckers : function(matchId) {
-        fs.readFile(`${dirpath}/${matchId}`, (err, data) => {
-            if (err) throw err;
-            return JSON.parse(data);
-        });
+        const fileContent = fs.readFileSync(`${dirpath}/${matchId}`);
+        return JSON.parse(fileContent);
     },
     updateCheckers : function(
         checkers,
