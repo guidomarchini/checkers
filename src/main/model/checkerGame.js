@@ -11,7 +11,7 @@ global.CheckerGame = function() {
     this.checkers = [];
     this.checkers[WHITE] = [];
     this.checkers[BLACK] = [];
-    this.turn = null
+    this.currentTurn = null;
 };
 /**
  * Creates a new game.
@@ -20,7 +20,7 @@ global.CheckerGame = function() {
  */
 CheckerGame.prototype.newGame = function(){
     this.checkers = this.board.initializeCheckers();
-    this.turn = WHITE;
+    this.currentTurn = WHITE;
     return this;
 };
 /**
@@ -31,7 +31,7 @@ CheckerGame.prototype.loadGame = function(checkers, currentTurn) {
         this.checkers[checker.color].push(checker)
     });
     this.board.placeCheckers(checkers);
-    this.turn = currentTurn;
+    this.currentTurn = currentTurn;
     return this;
 };
 /**
@@ -43,7 +43,7 @@ CheckerGame.prototype.moveChecker = function(
     xPositionTo,
     yPositionTo
 ) {
-    if (this.board.checkerAt(xPositionFrom, yPositionFrom).color !== this.turn) {
+    if (this.board.checkerAt(xPositionFrom, yPositionFrom).color !== this.currentTurn) {
         throw "Not that color's turn!"
     }
 
@@ -52,16 +52,18 @@ CheckerGame.prototype.moveChecker = function(
         this.board.moveChecker(xPositionFrom, yPositionFrom, xPositionTo, yPositionTo);
 
     // change the turn
-    this.turn = nextTurn[this.turn];
+    this.currentTurn = nextTurn[this.currentTurn];
 
     // remove checkers from the list
-    eatenCheckers.forEach(eatenChecker =>
-        this.checkers[this.turn].splice(eatenChecker, 1)
-    );
+    if (eatenCheckers && eatenCheckers.length !== 0) {
+        this.checkers[this.currentTurn] = this.checkers[this.currentTurn]
+            .filter(function(value) {
+                return !eatenCheckers.includes(value);
+        } )
+    }
 };
 
 // turn switchs
-const nextTurn = {
-    WHITE: BLACK,
-    BLACK: WHITE
-};
+const nextTurn = [];
+nextTurn[WHITE] = BLACK;
+nextTurn[BLACK] = WHITE;

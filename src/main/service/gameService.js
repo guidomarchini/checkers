@@ -20,7 +20,7 @@ module.exports = {
     newGame : function() {
         const newCheckerGame = new CheckerGame().newGame();
 
-        const match = matchService.newMatch(newCheckerGame.turn);
+        const match = matchService.newMatch(newCheckerGame.currentTurn);
         checkerService.saveCheckers(
             getAllCheckers(newCheckerGame),
             match
@@ -44,8 +44,21 @@ module.exports = {
             winner
         )
     },
-    moveChecker : function(matchid, movementRequest) {
-        console.log(movementRequest)
+    moveChecker : function(matchId, movementRequest) {
+        const checkers = checkerService.getCheckersForMatch(matchId);
+        const match = matchService.getMatch(matchId);
+
+        const checkerGame = new CheckerGame().loadGame(checkers, match.currentTurn);
+        checkerGame.moveChecker(
+            movementRequest.xAxisFrom,
+            movementRequest.yAxisFrom,
+            movementRequest.xAxisTo,
+            movementRequest.yAxisTo
+        );
+
+        match.currentTurn = checkerGame.currentTurn;
+        matchService.updateMatch(match);
+        checkerService.updateCheckers(getAllCheckers(checkerGame), matchId)
     }
 };
 

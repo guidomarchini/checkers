@@ -12,15 +12,15 @@ global.Board = function() {
     for(let i=0; i<this.boardSize; i++) {
         this.board[i] = new Array(this.boardSize);
     }
-}
+};
 /**
  * Returns the check by the given position
  */
 Board.prototype.checkerAt = function(
-    xPosition,
-    yPosition
+    xAxis,
+    yAxis
 ) {
-    return this.board[xPosition][yPosition]
+    return this.board[xAxis][yAxis]
 };
 /**
  * Initializes the checker board.
@@ -69,27 +69,27 @@ Board.prototype.placeCheckers = function(checkers) {
  * Returns the list of the eaten checkers
  */
 Board.prototype.moveChecker = function(
-    xPositionFrom,
-    yPositionFrom,
-    xPositionTo,
-    yPositionTo
+    xAxisFrom,
+    yAxisFrom,
+    xAxisTo,
+    yAxisTo
 ) {
 
     // arrange
-    const checker = this.checkerAt(xPositionFrom, yPositionFrom)
+    const checker = this.checkerAt(xAxisFrom, yAxisFrom);
 
-    const xRange = numberRange(xPositionFrom, xPositionTo);
-    const yRange = numberRange(yPositionFrom, yPositionTo);
+    const xRange = numberRange(xAxisFrom, xAxisTo);
+    const yRange = numberRange(yAxisFrom, yAxisTo);
 
     // diagonal movement means same range length
     if (xRange.length !== yRange.length) {
         throw "Invalid movement";
     }
-    if (this.checkerAt(xPositionTo, yPositionTo) !== null) {
+    if (this.checkerAt(xAxisTo, yAxisTo)) {
         throw "There's a checker in that cell!";
     }
 
-    const eatenCheckers = []
+    const eatenCheckers = [];
 
     // gather eaten checkers
     let currentCell = null;
@@ -98,7 +98,7 @@ Board.prototype.moveChecker = function(
         const xPosition = xRange[rangeIndex];
 
         currentCell = this.checkerAt(xPosition, yPosition);
-        if (currentCell !== null) {
+        if (currentCell) {
             // there's a checker!
             if (currentCell.color === checker.color) {
                 throw "Can't move over a checker with the same color!"
@@ -112,13 +112,24 @@ Board.prototype.moveChecker = function(
     eatenCheckers.forEach(checkerToDelete => {
         this.board[checkerToDelete.xPosition][checkerToDelete.yPosition] = null;
     });
+
+    // these are not used, but are part of the game ;P
     this.board[checker.xPosition][checker.yPosition] = null;
-    this.board[xPositionTo][yPositionTo] = checker;
+    this.board[xAxisTo][yAxisTo] = checker;
+
+    checker.xPosition = xAxisTo;
+    checker.yPosition = yAxisTo;
+
+    return eatenCheckers;
 };
 
 function numberRange (
     start,
     end
 ) {
-    return new Array(end - start).fill().map((element, index) => start + index);
+    if (end > start) {
+        return new Array(end - start).fill().map((element, index) => start + index + 1);
+    } else {
+        return new Array(start - end).fill().map((element, index) => start - index - 1);
+    }
 }

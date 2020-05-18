@@ -1,11 +1,13 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const bodyParser = require('body-parser');
 
 const gameService = require('./service/gameService');
 const linkService = require('./service/linkService');
 
 app.engine('html', require('ejs').renderFile);
+app.use(bodyParser.json());
 
 // UI calls
 app.get('/', function(req, res) {
@@ -53,6 +55,7 @@ app.put('/apis/matches/:matchId', function(req, res) {
     let movementRequest = req.body;
     console.log(`[match=${matchId}] moving from: [${movementRequest.xAxisFrom}, ${movementRequest.yAxisFrom}] to [${movementRequest.xAxisTo}, ${movementRequest.yAxisTo}]`)
     gameService.moveChecker(matchId, movementRequest);
+    res.sendStatus(200);
 });
 
 app.listen(3000, function() {

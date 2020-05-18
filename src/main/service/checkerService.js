@@ -16,8 +16,8 @@ module.exports = {
     },
     updateCheckers: function(
         checkers,
-        match
+        matchId
     ) {
-        return checkerRepository.updateCheckers(checkers, match);
+        return checkerRepository.updateCheckers(checkers, matchId);
     }
 };
