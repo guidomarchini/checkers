@@ -57,15 +57,23 @@
         </style>
 
         <script>
+            // constants / variables to enable gameplay
             const matchId = '<%=matchId %>';
             const player = '<%=player %>';
             let selectedCheckerCoordinates = null;
             let currentTurn = null;
 
-            function cellId(xAxis, yAxis) {
+            /** Makes the id of a cell by its coordinates */
+            function cellId(
+                xAxis,
+                yAxis
+            ) {
                 return `cell-${xAxis}-${yAxis}`;
             }
 
+            /**
+             * Creates the checkers board, then fills it.
+             */
             function drawCheckersBoard() {
                 const checkerBoard = document.getElementById('checkers-board');
                 const boardSize = 10;
@@ -91,10 +99,14 @@
                     checkerBoard.appendChild(boardRow)
                 }
 
-                fillCheckers()
+                fillBoard()
             }
 
-            function fillCheckers() {
+            /**
+             * Goes to the BE and fetches the game data.
+             * Then it fills the board with the checkers, adding the gameplay in the middle.
+             */
+            function fillBoard() {
                 fetch(`/apis/matches/${matchId}`, {
                     method: 'GET'
                 }).then(function(response) {
@@ -102,7 +114,8 @@
                         response.json().then(data => {
                             // checkers, currentTurn, winner
                             currentTurn = data.currentTurn;
-                            fillBoard(data.checkers, data.currentTurn);
+
+                            addCheckers(data.checkers, data.currentTurn);
                             showText(data.winner, data.currentTurn);
 
                             // it's too late to think about a good way to do this
@@ -118,6 +131,7 @@
                 });
             }
 
+            /** Chooses and places a text above the board. */
             function showText(
                 winner,
                 currentTurn
@@ -137,11 +151,17 @@
                 }
             }
 
+            /** Sets the text above the board. */
             function setText(text) {
                 document.getElementById('turn-text').innerText = text
             }
 
-            function fillBoard(
+            /**
+             * Fills the board with checkers.
+             * For current player, the checkers are going to be able to be selected.
+             * Those checkers gain an onclick function to make a move.
+             */
+            function addCheckers(
                 checkers,
                 currentTurn
             ) {
@@ -161,11 +181,16 @@
                 })
             }
 
+            /**
+             * This function is called when the checker is selected.
+             * Enables that checker's movement, highlighting its possible movements.
+             * Nice to have: select checker again to reset the checker.
+             */
             function selectChecker(
                 checker,
                 cell
             ) {
-                resetMovements();
+                resetSelectedChecker();
                 cell.id = 'selected-checker';
                 selectedCheckerCoordinates = [checker.xPosition, checker.yPosition];
 
@@ -180,7 +205,8 @@
                 showMovements(selectedCheckerCoordinates, downLeftVariance, checker.color);
             }
 
-            function resetMovements() {
+            /** Turns back the selection of the checker */
+            function resetSelectedChecker() {
                 // doesn't work without the Array wrapper...
                 for (let cell of Array.from(document.getElementsByClassName('movable-cell'))) {
                     cell.className = 'board-cell black-cell';
@@ -188,10 +214,11 @@
                 }
                 const selectedChecker = document.getElementById('selected-checker');
                 if (selectedChecker) {
-                    selectedChecker.id = null
+                    selectedChecker.id = null;
                 }
             }
 
+            /** Show the possible movements of the checker */
             function showMovements(
                 currentCoordinates,
                 variance,
@@ -202,7 +229,7 @@
 
                 const targetCell = document.getElementById(cellId(xAxis, yAxis));
 
-                // if target cell exists (i'm not outside of the board
+                // if target cell exists (i'm not outside of the board)
                 // and not contains a checker with same color
                 // then we paint/continue painting
                 if (targetCell && !containsChecker(targetCell, checkerColor)) {
@@ -218,6 +245,7 @@
                 }
             }
 
+            /** Checks if the cell contains a checker inside */
             function containsChecker(
                 targetCell,
                 checkerColor
@@ -225,6 +253,7 @@
                 return targetCell.hasChildNodes() && targetCell.firstElementChild.getAttribute('class').includes(checkerColor)
             }
 
+            /** Moves the checker to the specified coordinates */
             function moveChecker(
                 xAxisTo,
                 yAxisTo
@@ -252,8 +281,11 @@
             }
 
 
-
-
+            /**
+             * Starts polling the BE for turn change.
+             * The poll is set to be on an interval of 5 seconds.
+             * If the turn changed, the window is reload in order to refresh the DOM.
+             */
             const startPolling = async () => {
                 const interval = 5000;
 

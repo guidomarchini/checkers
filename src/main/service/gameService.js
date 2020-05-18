@@ -1,6 +1,3 @@
-/**
- * Service that orchestrates the game creation and movements
- */
 // imports
 require('../game/checkerGame');
 require('../commons');
@@ -13,6 +10,9 @@ const matchService = require('./matchService');
 const checkerService = require('./checkerService');
 const linkService = require('./linkService');
 
+/**
+ * Service that orchestrates the game creation and movements
+ */
 module.exports = {
     getAllMatches : function() {
         return new GetMatchesResponse(matchService.getAllMatches());
@@ -44,7 +44,10 @@ module.exports = {
             winner
         )
     },
-    moveChecker : function(matchId, movementRequest) {
+    moveChecker : function(
+        matchId,
+        movementRequest
+    ) {
         const checkers = checkerService.getCheckersForMatch(matchId);
         const match = matchService.getMatch(matchId);
 

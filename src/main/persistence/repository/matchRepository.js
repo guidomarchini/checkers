@@ -14,6 +14,7 @@ const dirpath = path.join(`${__dirname}/out/${MATCH}`);
 // I know, it's ugly. I know I can do this better
 const idEntity = 'link';
 
+/** Repository for match entities. */
 module.exports = {
     createMatch : function(firstTurn) {
         const newMatchId = idGenerator.generateId(idEntity);

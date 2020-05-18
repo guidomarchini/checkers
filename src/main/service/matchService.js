@@ -1,8 +1,8 @@
+const matchRepository = require('../persistence/repository/matchRepository');
+
 /**
  * Service for CRUD of Matches.
  */
-const matchRepository = require('../persistence/repository/matchRepository');
-
 module.exports = {
     newMatch : function(firstTurn) {
         return matchRepository.createMatch(firstTurn);

@@ -1,6 +1,6 @@
 /**
  * Response for a new match game.
- * It contains the links for both black and white players.
+ * It contains the links ids for both black and white players.
  */
 global.NewMatchResponse = function(
     whitePlayerLink,

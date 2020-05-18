@@ -1,9 +1,9 @@
-/**
- * Service for CRUD of Checkers.
- * All checkers of a match are needed for the operations.
- */
 const checkerRepository = require('../persistence/repository/checkerRepository');
 
+/**
+ * Service for CRUD of Checkers.
+ * A checker alone is never returned, so they're linked to a match as a collection of Checkers.
+ */
 module.exports = {
     saveCheckers : function(
         checkers,

@@ -7,6 +7,7 @@ const path = require('path');
 const CHECKER = 'checker';
 const dirpath = path.join(`${__dirname}/out/${CHECKER}`);
 
+/** Repository for Checkers entities. */
 module.exports = {
     createCheckers : function(
         checkers,

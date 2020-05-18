@@ -3,7 +3,7 @@ require('../commons');
 
 /**
  * Represents the checker board.
- * It contains information about how the checks are in the board.
+ * It contains information about how the checkers are in the board.
  */
 global.Board = function() {
     this.boardSize = 10;
@@ -14,7 +14,7 @@ global.Board = function() {
     }
 };
 /**
- * Returns the check by the given position
+ * Returns the checker by the given position
  */
 Board.prototype.checkerAt = function(
     xAxis,
@@ -24,7 +24,7 @@ Board.prototype.checkerAt = function(
 };
 /**
  * Initializes the checker board.
- * By the end of it, returns the checks that were created
+ * By the end of it, returns the checkers that were created
  */
 Board.prototype.initializeCheckers = function() {
     const self = this;

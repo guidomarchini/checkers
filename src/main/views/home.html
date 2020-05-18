@@ -42,6 +42,7 @@
         </style>
 
         <script>
+            /** Creates a match, opening a modal window with the resulting links. */
             function startMatch() {
                 fetch(`/apis/matches`, {
                     method: 'POST'
@@ -58,6 +59,7 @@
                 })
             }
 
+            /** Goes to the BE and generates a li for each match. */
             function loadMatches() {
                 fetch('/apis/matches', {
                     method: 'GET'

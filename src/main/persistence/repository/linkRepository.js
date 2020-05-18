@@ -8,6 +8,7 @@ const path = require('path');
 const LINK = 'link';
 const dirpath = path.join(`${__dirname}/out/${LINK}`);
 
+/** Repository for Link entities. */
 module.exports = {
     createLink : function(
         matchId,

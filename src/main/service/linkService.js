@@ -1,9 +1,9 @@
-/**
- * Service for CRUD of links.
- */
 const linkRepository = require('../persistence/repository/linkRepository');
 require('../commons');
 
+/**
+ * Service for CRUD of links.
+ */
 module.exports = {
     generateLinks : function(match) {
         return {
