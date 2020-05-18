@@ -1,6 +1,8 @@
 # checkers
 Checkers code challenge, together with the investigation of a new language for me :)
 
+![sampleview](https://github.com/guidomarchini/checkers/blob/master/git/sample-board.png)
+
 ## About the game
 This checkers game is kinda different thatn the original one. The differences:
 * Board is 10x10!
