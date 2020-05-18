@@ -11,12 +11,14 @@ app.engine('html', require('ejs').renderFile);
 app.use(bodyParser.json());
 
 // UI calls
+/** Home page */
 app.get('/', function(req, res) {
     // TODO whish i had known about
     console.log('returning home page');
     res.sendFile(path.join(__dirname+'/views/home.html'))
 });
 
+/** Match page */
 app.get('/damas/:linkId', function(req, res) {
     const linkId = req.params.linkId;
     console.log(`[link=${linkId}] fetching link`);
@@ -32,33 +34,35 @@ app.get('/damas/:linkId', function(req, res) {
 });
 
 // api calls
-/**
- * Creates a new match, returning the links for both white and black players.
- */
+/** Gets all available matches. */
+/* this one could be removed if homepage used ejs */
 app.get('/apis/matches', function(req, res) {
     console.log('fetching all matches');
     res.json(gameService.getAllMatches())
 });
 
+/** Creates a new match, returning the links for both white and black players. */
 app.post('/apis/matches', function(req, res) {
     console.log('creating new game');
     // res.sendStatus(201);
     res.json(gameService.newGame());
 });
 
+/** Returns the game for the given id */
 app.get('/apis/matches/:matchId', function(req, res) {
     const matchId = req.params.matchId;
     console.log(`[match=${matchId}] fetching game`);
     res.json(gameService.getGame(matchId))
 });
 
-/** returns the current turn of the match. Used for polling */
+/** Returns the current turn of the match. Used for polling */
 app.get('/apis/matches/:matchId/turn', function(req, res) {
     const matchId = req.params.matchId;
     console.log(`[match=${matchId}] fetching current turn`);
     res.send(matchService.getMatch(matchId).currentTurn);
 });
 
+/** Generates a checker move, updating the match. */
 app.put('/apis/matches/:matchId', function(req, res) {
     const matchId = req.params.matchId;
     let movementRequest = req.body;

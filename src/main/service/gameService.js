@@ -2,7 +2,7 @@
  * Service that orchestrates the game creation and movements
  */
 // imports
-require('../model/checkerGame');
+require('../game/checkerGame');
 require('../commons');
 require('../api/newMatchResponse');
 require('../api/getMatchesResponse');
