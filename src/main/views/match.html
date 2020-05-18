@@ -60,6 +60,7 @@
             const matchId = '<%=matchId %>';
             const player = '<%=player %>';
             let selectedCheckerCoordinates = null;
+            let currentTurn = null;
 
             function cellId(xAxis, yAxis) {
                 return `cell-${xAxis}-${yAxis}`;
@@ -100,8 +101,16 @@
                     if(response.ok) {
                         response.json().then(data => {
                             // checkers, currentTurn, winner
+                            currentTurn = data.currentTurn;
                             fillBoard(data.checkers, data.currentTurn);
                             showText(data.winner, data.currentTurn);
+
+                            // it's too late to think about a good way to do this
+                            if (currentTurn !== 'spectator' &&
+                                currentTurn !== player
+                            ) {
+                                startPolling();
+                            }
                         })
                     } else {
                         // error?
@@ -241,6 +250,34 @@
                     }
                 })
             }
+
+
+
+
+            const startPolling = async () => {
+                const interval = 5000;
+
+                const executePoll = async () => {
+
+                    fetch(`/apis/matches/${matchId}/turn`, {
+                        method: 'GET'
+                    }).then(function(response) {
+                        if(response.ok) {
+                            response.text().then(turn => {
+                                if (turn !== currentTurn) {
+                                    location.reload();
+                                } else {
+                                    setTimeout(executePoll, interval);
+                                }
+                            })
+                        } else {
+                            setTimeout(executePoll, interval);
+                        }
+                    });
+                };
+
+                return new Promise(executePoll);
+            };
         </script>
     </head>
     <body onload="drawCheckersBoard()">

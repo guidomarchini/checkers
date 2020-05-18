@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 
 const gameService = require('./service/gameService');
 const linkService = require('./service/linkService');
+const matchService = require('./service/matchService');
 
 app.engine('html', require('ejs').renderFile);
 app.use(bodyParser.json());
@@ -49,6 +50,13 @@ app.get('/apis/matches/:matchId', function(req, res) {
     const matchId = req.params.matchId;
     console.log(`[match=${matchId}] fetching game`);
     res.json(gameService.getGame(matchId))
+});
+
+/** returns the current turn of the match. Used for polling */
+app.get('/apis/matches/:matchId/turn', function(req, res) {
+    const matchId = req.params.matchId;
+    console.log(`[match=${matchId}] fetching current turn`);
+    res.send(matchService.getMatch(matchId).currentTurn);
 });
 
 app.put('/apis/matches/:matchId', function(req, res) {
