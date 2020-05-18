@@ -11,8 +11,8 @@ module.exports = {
     ) {
         return checkerRepository.createCheckers(checkers, match.id);
     },
-    getCheckersForMatch: function(match) {
-        return checkerRepository.getCheckers(match.id);
+    getCheckersForMatch: function(matchId) {
+        return checkerRepository.getCheckers(matchId);
     },
     updateCheckers: function(
         checkers,
