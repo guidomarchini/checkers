@@ -29,6 +29,10 @@
                 position: fixed;
                 z-index: 1;
                 overflow: auto;
+                left: 20%;
+                top: 20%;
+                background-color: white;
+                border: 1px solid;
             }
 
             .modal-header {
@@ -46,8 +50,8 @@
                         response.json().then(data => {
                             document.getElementById("white-player-link").innerText = window.location.href + "damas/" + data.whitePlayerLink.id;
                             document.getElementById("black-player-link").innerText = window.location.href + "damas/" + data.blackPlayerLink.id;
-                            document.getElementById("new-game-modal").style.display = "block"
-                        })
+                            document.getElementById("new-game-modal").style.display = "block";
+                        });
                     } else {
                         // error?
                     }
@@ -70,7 +74,7 @@
                                         (new Date() - new Date(match.startedAt)) / 1000 / 60
                                     );
 
-                                const linkTag = document.createElement('a')
+                                const linkTag = document.createElement('a');
                                 linkTag.setAttribute('href', window.location.href + "damas/" + match.id);
                                 linkTag.innerHTML = `Iniciada hace ${minutesDiff} minutos. Turno de ${match.currentTurn}`;
                                 item.appendChild(linkTag);
@@ -81,6 +85,10 @@
                         // error?
                     }
                 });
+            }
+
+            function hideModal() {
+                location.reload();
             }
         </script>
     </head>
@@ -100,7 +108,7 @@
         <div id="new-game-modal" class="modal">
             <div class="modal-header">
                 <span>Nueva partida!</span>
-                <span class="close">&times;</span>
+                <span class="close f-right" onclick="hideModal()">&times;</span>
             </div>
             <div class="modal-body">
                 <div>
