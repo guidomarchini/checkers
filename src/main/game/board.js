@@ -1,4 +1,4 @@
-require('./checker');
+require('../persistence/entity/checkerEntity');
 require('../commons');
 
 /**
@@ -37,7 +37,7 @@ Board.prototype.initializeCheckers = function() {
             xIndex < self.boardSize;
             xIndex++) {
             if (modFunction(xIndex)) {
-                const check = new Checker(color, xIndex, yIndex);
+                const check = new CheckerEntity(color, xIndex, yIndex);
                 self.board[xIndex][yIndex] = check;
                 checkers[color].push(check)
             }
