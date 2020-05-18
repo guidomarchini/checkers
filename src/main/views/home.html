@@ -48,8 +48,8 @@
                 }).then(function(response) {
                     if(response.ok) {
                         response.json().then(data => {
-                            document.getElementById("white-player-link").innerText = window.location.href + "damas/" + data.whitePlayerLink.id;
-                            document.getElementById("black-player-link").innerText = window.location.href + "damas/" + data.blackPlayerLink.id;
+                            document.getElementById("white-player-link").innerText = window.location.href + "damas/" + data.whitePlayerLink;
+                            document.getElementById("black-player-link").innerText = window.location.href + "damas/" + data.blackPlayerLink;
                             document.getElementById("new-game-modal").style.display = "block";
                         });
                     } else {

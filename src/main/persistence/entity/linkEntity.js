@@ -5,11 +5,9 @@
  * @param player black, white or spectator
  */
 global.LinkEntity = function(
-    id,
     matchId,
     player
 ) {
-    this.id = id;
     this.matchId = matchId;
     this.player = player;
 }
